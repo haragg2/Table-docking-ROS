@@ -1,4 +1,4 @@
-#How to use
+# How to use
 
 1. Run ```catkin_make``` in the workspace folder
 2. Run ```roslaunch aitech_task simple_robot_gazebo.launch``` in first terminal.
