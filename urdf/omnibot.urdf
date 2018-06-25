@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+
+<robot name="omnibot">
+
+  <material name="orange">
+      <color rgba="0.98 0.41 0 1"/>
+  </material>
+  <!-- root link, on the ground just below the model origin -->
+  <link name="base_footprint">
+   <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="base_link_joint" type="fixed">
+    <origin xyz="0.0 0 0.201" rpy="0 0 0" />
+    <parent link="base_footprint"/>
+    <child link="base_link" />
+  </joint>
+
+
+  <!-- the model -->
+  <link name="base_link">
+    <inertial>
+      <mass value="1000" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="346.6736" ixy="0.0" ixz="0.0"
+        iyy="763.3486" iyz="0.0"
+        izz="1083.355" />
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="3.0 2.0 0.4" /> <!-- does not need to match collision -->
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" />
+      <geometry>
+        <box size="3.1 2.1 0.4" />
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="base_link">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <!-- hokuyo -->
+
+  <link name="hokuyo">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.05" />
+      </geometry>
+	 <material name="Blue"/>
+    </visual>
+
+  </link>
+
+  <joint name="hokuyo_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.0 0.0 0.25"/>
+    <parent link="base_link"/>
+    <child link="hokuyo"/>
+  </joint>
+
+
+  <gazebo reference="hokuyo">
+   <material>Gazebo/Blue</material>
+    <turnGravityOff>false</turnGravityOff>
+
+ <sensor name="head_hokuyo_sensor" type="ray">
+
+   <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>100</update_rate>
+      <ray>
+
+      <scan>
+          <horizontal>
+            <samples>1080</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.14159</max_angle>
+          </horizontal>
+        </scan>
+
+        <range>
+          <min>0.1</min>
+          <max>15</max>
+          <resolution>0.01</resolution>
+        </range>
+
+      </ray>
+
+      <plugin filename="libgazebo_ros_laser.so" name="gazebo_ros_head_hokuyo_controller">
+        <topicName>/scan</topicName>
+        <frameName>hokuyo</frameName>
+      </plugin>
+   </sensor>
+  </gazebo>
+
+
+  <gazebo>
+    <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometryRate>20.0</odometryRate>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+    </plugin>
+  </gazebo>
+
+</robot>

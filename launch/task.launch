@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="aitech_task" type="laser2pc" name="Laser2PC"/>
+  <node pkg="aitech_task" type="sendgoal" name="GoalSender" output="screen"/>
+</launch>

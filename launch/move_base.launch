@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!--- Run move base -->
+  <include file="$(find aitech_task)/launch/include/move_base.xml" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find aitech_task)/rviz/navigation.rviz"/>
+
+</launch>
