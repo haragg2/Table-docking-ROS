@@ -1,4 +1,3 @@
-controller_frequency: 10
 recovery_behavior_enabled: true
 clearing_rotation_allowed: true
 
@@ -43,6 +42,6 @@ DWAPlannerROS:
 # Oscillation Prevention Parameters
   oscillation_reset_dist: 0.4
 
-# Differential-drive robot configuration
+# Omnidirectional robot configuration
   holonomic_robot: true
   y_vels: [-1.0, -0.1, 0.1, 1.0]
