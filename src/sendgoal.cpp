@@ -3,6 +3,7 @@
 #include <actionlib/client/simple_action_client.h>
 #include <visualization_msgs/Marker.h>
 #include <tf/transform_datatypes.h>
+#include <tf/transform_listener.h>
 
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
@@ -18,10 +19,10 @@ private:
 public:
     SendGoal():ac("move_base", true)
     {
-        //wait for the action server to come up
-        // while(!ac.waitForServer(ros::Duration(5.0))){
-        //     ROS_INFO("Waiting for the move_base action server to come up");
-        // }
+        // wait for the action server to come up
+        while(!ac.waitForServer(ros::Duration(5.0))){
+            ROS_INFO("Waiting for the move_base action server to come up");
+        }
         goalSub  =  n.subscribe("visualization_marker", 10, &SendGoal::goalCallback, this);
     }
 
